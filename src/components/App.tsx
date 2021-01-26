@@ -4,14 +4,19 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
 import ProductStream from "./ProductStream";
 import { useProductLoader } from "../api/useProductLoader";
+import { useFilterLoader } from "../api/useFilterLoader";
+import FiltersPanel from "./FiltersPanel";
 
 const App = () => {
   const products = useProductLoader();
-  console.log(products);
+  const filters = useFilterLoader();
+
   return (
     <>
       <GlobalStyle />
-      <Header />
+      <Header>
+        <FiltersPanel filters={filters} />
+      </Header>
       <Layout>
         <ProductStream products={products} />
       </Layout>

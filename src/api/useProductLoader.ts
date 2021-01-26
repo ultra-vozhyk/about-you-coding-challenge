@@ -6,19 +6,18 @@ import {
 } from "@aboutyou/backbone/endpoints/products/products";
 import { useAsyncLoader } from "./useAsyncLoader";
 import { normalizeProduct } from "./normalizeProduct";
-
-const SHOP_ID = 139;
+import { API_ENDPOINT, CATEGORY_ID, SHOP_ID } from "../utils/constants";
 
 export const useProductLoader = () => {
   const products = useAsyncLoader(
     useCallback(
       () =>
         execute(
-          "http://0.0.0.0:9459/v1/",
+          API_ENDPOINT,
           SHOP_ID,
           createProductsSearchEndpointRequest({
             where: {
-              categoryId: 20290
+              categoryId: CATEGORY_ID
             },
             pagination: {
               page: 1,

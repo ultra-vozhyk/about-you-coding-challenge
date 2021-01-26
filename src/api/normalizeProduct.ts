@@ -10,19 +10,9 @@ const getImageUrl = (hash: string) =>
 const getProductDefaultImage = (
   productImages: ProductImage[]
 ): string | null => {
-  console.log(productImages);
-  let bustImage;
-  try {
-    bustImage = productImages.find(
-      p => p.attributes.imageType.values.value === "bust"
-    );
-  } catch (e) {
-    console.log(e);
-  }
-
-  if (!bustImage) {
-    return null;
-  }
+  const bustImage = productImages.find(
+    p => p.attributes.imageType.values.value === "bust"
+  );
 
   return getImageUrl(bustImage.hash);
 };
