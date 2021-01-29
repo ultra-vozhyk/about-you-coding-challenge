@@ -4,3 +4,5 @@ export interface Product {
   name: string;
   price?: string;
 }
+
+export type FiltersMap = Record<number, string[]>;

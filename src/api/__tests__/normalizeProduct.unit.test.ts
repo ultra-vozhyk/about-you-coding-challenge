@@ -1,7 +1,7 @@
 import { normalizeProduct } from "../normalizeProduct";
 import backendProductMock from "./product.mock.json";
 import { BapiProduct } from "@aboutyou/backbone/types/BapiProduct";
-import { Product } from "../../types/Product";
+import { Product } from "../../types/types";
 
 describe("normalizeProduct", () => {
   let product: Product;
