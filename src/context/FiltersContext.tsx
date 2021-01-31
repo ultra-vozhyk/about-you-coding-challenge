@@ -4,7 +4,7 @@ import { useFilterLoader } from "../api/useFilterLoader";
 import { FiltersMap } from "../types/types";
 import { useProductCtx } from "./ProductsContext";
 
-interface IFiltersCtx {
+export interface IFiltersCtx {
   filters: FilterItemWithValues[];
   appliedFilters: Record<number, string[]>;
   isFilterPanelVisible: boolean;
@@ -15,7 +15,7 @@ interface IFiltersCtx {
   applyFilters: () => void;
 }
 
-const FiltersContext = React.createContext<IFiltersCtx>({
+export const FiltersContext = React.createContext<IFiltersCtx>({
   filters: [],
   appliedFilters: {},
   isFilterPanelVisible: false,

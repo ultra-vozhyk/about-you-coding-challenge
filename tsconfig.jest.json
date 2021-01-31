@@ -4,5 +4,6 @@
     "jsx": "react",
     "esModuleInterop": true,
     "allowJs": true
-  }
+  },
+  "include": ["./jestSetup.ts"]
 }

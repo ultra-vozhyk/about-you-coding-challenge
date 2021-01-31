@@ -20,10 +20,20 @@ export const Checkbox: React.FC<ICheckboxProps> = ({
   onChange,
   ...rest
 }) => {
+  const testIdPrefix = `checkbox-${name}-${value}`;
+
   return (
-    <Wrapper isActive={isChecked} {...rest}>
-      <FakeCheckbox isActive={isChecked} checkboxStyle={checkboxStyle}>
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <Wrapper {...rest} isActive={isChecked} data-testid={testIdPrefix}>
+      <FakeCheckbox
+        isActive={isChecked}
+        checkboxStyle={checkboxStyle}
+        data-testid={`${testIdPrefix}__box`}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          data-testid={`${testIdPrefix}__mark`}
+        >
           <path
             fill="none"
             stroke={
@@ -39,6 +49,7 @@ export const Checkbox: React.FC<ICheckboxProps> = ({
       </FakeCheckbox>
       <Input
         type="checkbox"
+        data-testid={`${testIdPrefix}__input`}
         name={name}
         value={value}
         checked={isChecked}

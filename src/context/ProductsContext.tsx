@@ -6,29 +6,38 @@ import { debounce, transformToAttributesWithValues } from "../utils/utils";
 
 type RefreshFn = (filters: FiltersMap, force?: boolean) => void;
 
-interface ProductsCtx {
+interface ProductsContextProviderProps {
+  reFetchDelay?: number;
+}
+
+export interface ProductsCtx {
   products: Product[];
   refresh: RefreshFn;
 }
 
-const ProductsContext = React.createContext<ProductsCtx>({
+export const ProductsContext = React.createContext<ProductsCtx>({
   products: [],
   refresh: () => {}
 });
 
 export const useProductCtx = () => useContext(ProductsContext);
 
-export const ProductsContextProvider: React.FC = ({ children }) => {
+export const ProductsContextProvider: React.FC<
+  ProductsContextProviderProps
+> = ({ children, reFetchDelay = 200 }) => {
   const [attributeFilters, setAttributeFilters] = useState<
     AttributeWithValuesFilter[]
-  >();
+  >([]);
   const products = useProductLoader(attributeFilters);
 
   const apply = useCallback((filters: FiltersMap) => {
     setAttributeFilters(transformToAttributesWithValues(filters));
   }, []);
 
-  const debouncedApply = useMemo(() => debounce(apply, 2000), [apply]);
+  const debouncedApply = useMemo(() => debounce(apply, reFetchDelay), [
+    apply,
+    reFetchDelay
+  ]);
 
   const refresh = useCallback(
     (filters: FiltersMap, force: boolean = false) => {

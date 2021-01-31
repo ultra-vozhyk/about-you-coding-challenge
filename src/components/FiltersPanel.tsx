@@ -11,6 +11,8 @@ import { SidePanel } from "./SidePanel";
 
 const MemoizedFilter = React.memo(Filter);
 
+const testIdPrefix = "filters-panel-footer";
+
 export const FiltersPanel: React.FC = () => {
   const {
     appliedFilters,
@@ -24,7 +26,6 @@ export const FiltersPanel: React.FC = () => {
   } = useFiltersCtx();
 
   const handleClose = () => {
-    console.log("hjere");
     setFilterPanelVisiblity(false);
   };
 
@@ -47,18 +48,27 @@ export const FiltersPanel: React.FC = () => {
 
     return null;
   };
-  console.log(isFilterPanelVisible);
+
   return (
     <SidePanel
       isVisible={isFilterPanelVisible}
       title="Filters"
       onClose={handleClose}
       footer={
-        <Actions>
-          <Button buttonType="secondary" onClick={resetAll}>
+        <Actions data-tesid={`${testIdPrefix}`}>
+          <Button
+            data-testid={`${testIdPrefix}__reset-all`}
+            buttonType="secondary"
+            onClick={resetAll}
+          >
             Reset
           </Button>
-          <Button onClick={applyFilters}>Search</Button>
+          <Button
+            data-testid={`${testIdPrefix}__apply-filters`}
+            onClick={applyFilters}
+          >
+            Search
+          </Button>
         </Actions>
       }
     >

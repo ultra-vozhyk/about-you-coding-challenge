@@ -23,6 +23,8 @@ export const Filter: React.FC<IFilterProps> = ({
   onChange,
   onReset
 }) => {
+  const testIdPrefix = `filter-${name}`;
+
   const handleChange = useCallback(
     (value: string) => {
       onChange(id, value);
@@ -49,14 +51,21 @@ export const Filter: React.FC<IFilterProps> = ({
   };
 
   return (
-    <Wrapper>
+    <Wrapper data-testid={testIdPrefix}>
       <Header>
-        <Title>{title}</Title>
-        <Button buttonType="text" size="small" onClick={handleReset}>
+        <Title data-testid={`${testIdPrefix}__title`}>{title}</Title>
+        <Button
+          buttonType="text"
+          size="small"
+          onClick={handleReset}
+          data-testid={`${testIdPrefix}__reset`}
+        >
           Reset
         </Button>
       </Header>
-      <Content>{values.map(renderCheckbox)}</Content>
+      <Content data-testid={`${testIdPrefix}__items`}>
+        {values.map(renderCheckbox)}
+      </Content>
     </Wrapper>
   );
 };

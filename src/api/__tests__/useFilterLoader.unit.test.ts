@@ -38,8 +38,16 @@ describe("useFilterLoader hook", () => {
     jest.useFakeTimers();
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
+
   it("should return `color` and `pattern` filters when they exists in response", async () => {
-    jest.spyOn(executeHelpers, "execute").mockReturnValueOnce(
+    jest.spyOn(executeHelpers, "execute").mockReturnValue(
       new Promise(resolve => {
         resolve({
           url: "",
@@ -58,7 +66,7 @@ describe("useFilterLoader hook", () => {
   });
 
   it("should return empty array when there are no `color` and `pattern` filters in response", async () => {
-    jest.spyOn(executeHelpers, "execute").mockReturnValueOnce(
+    jest.spyOn(executeHelpers, "execute").mockReturnValue(
       new Promise(resolve => {
         resolve({
           url: "",

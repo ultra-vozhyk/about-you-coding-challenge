@@ -20,22 +20,35 @@ export const SidePanel: React.FC<ISidePanelProps> = ({
   footer,
   onClose
 }) => {
+  const testIdPrefix = "sidepanel";
+
   return (
     <>
-      <Wrapper isVisible={isVisible}>
+      <Wrapper isVisible={isVisible} data-testid={`${testIdPrefix}`}>
         <Header>
-          <Title>{title}</Title>
-          <IconButton buttonType="secondary" rounded={true} onClick={onClose}>
+          <Title data-testid={`${testIdPrefix}__title`}>{title}</Title>
+          <IconButton
+            buttonType="secondary"
+            rounded={true}
+            onClick={onClose}
+            data-testid={`${testIdPrefix}__close`}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path clipRule="evenodd" fill="none" d="M0 0h24v24H0z"></path>
               <path d="M7.697 6.167L7.53 6 6 7.53 10.47 12l-4.303 4.303L6 16.47 7.53 18 12 13.53l4.302 4.303.167.167L18 16.47 13.53 12 18 7.53 16.47 6 12 10.47 7.697 6.167z"></path>
             </svg>
           </IconButton>
         </Header>
-        <Content>{children}</Content>
-        {footer && <Footer>{footer}</Footer>}
+        <Content data-testid={`${testIdPrefix}__content`}>{children}</Content>
+        {footer && (
+          <Footer data-testid={`${testIdPrefix}__footer`}>{footer}</Footer>
+        )}
       </Wrapper>
-      <Overlay isVisible={isVisible} onClick={onClose} />
+      <Overlay
+        isVisible={isVisible}
+        onClick={onClose}
+        data-testid={`${testIdPrefix}-overlay`}
+      />
     </>
   );
 };
