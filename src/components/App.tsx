@@ -4,6 +4,8 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
 import ProductStream from "./ProductStream";
 import { FiltersContextProvider } from "../context/FiltersContext";
+import { FiltersButton } from "./FiltersButton";
+import { FiltersPanel } from "./FiltersPanel";
 import { ProductsContextProvider } from "../context/ProductsContext";
 
 const App = () => {
@@ -12,10 +14,13 @@ const App = () => {
       <GlobalStyle />
       <ProductsContextProvider>
         <FiltersContextProvider>
-          <Header />
+          <Header>
+            <FiltersButton text="Filters" />
+          </Header>
           <Layout>
             <ProductStream />
           </Layout>
+          <FiltersPanel />
         </FiltersContextProvider>
       </ProductsContextProvider>
     </>
