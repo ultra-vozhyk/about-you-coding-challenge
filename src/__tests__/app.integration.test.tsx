@@ -29,4 +29,12 @@ describe("App", () => {
     const { findAllByTestId } = render(<App />);
     expect((await findAllByTestId("ProductTile")).length).toBe(50);
   });
+
+  it("should show filters panel, after click on `Filters` button", () => {});
+
+  it("should update product list automatically, after applying a filter", () => {});
+
+  it("should reset individual filter, after click on `Reset` button", () => {});
+
+  it("should apply filters, after click on `Search` button", () => {});
 });
