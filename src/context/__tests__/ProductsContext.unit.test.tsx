@@ -35,8 +35,11 @@ const renderWrappedHook = () => {
 };
 
 describe("<ProductsContext />", () => {
-  beforeEach(() => {
+  beforeAll(() => {
     jest.useFakeTimers();
+  });
+
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
