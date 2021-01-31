@@ -7,8 +7,11 @@ import {
 import { useAsyncLoader } from "./useAsyncLoader";
 import { normalizeProduct } from "./normalizeProduct";
 import { API_ENDPOINT, CATEGORY_ID, SHOP_ID } from "../utils/constants";
+import { ProductSearchQuery } from "@aboutyou/backbone/types/ProductSearchQuery";
 
-export const useProductLoader = () => {
+export const useProductLoader = (
+  attributes?: ProductSearchQuery["attributes"]
+) => {
   const products = useAsyncLoader(
     useCallback(
       () =>
@@ -17,7 +20,8 @@ export const useProductLoader = () => {
           SHOP_ID,
           createProductsSearchEndpointRequest({
             where: {
-              categoryId: CATEGORY_ID
+              categoryId: CATEGORY_ID,
+              attributes
             },
             pagination: {
               page: 1,
@@ -36,7 +40,7 @@ export const useProductLoader = () => {
             }
           })
         ).then(({ data }) => data.entities.map(normalizeProduct)),
-      []
+      [attributes]
     )
   );
 
