@@ -24,6 +24,16 @@ const products: Product[] = [
 
 const filterAttributes = transformToAttributesWithValues(filtersMap);
 
+const renderWrappedHook = () => {
+  const wrapper = ({ children }) => (
+    <ProductsContextProvider>{children}</ProductsContextProvider>
+  );
+
+  return renderHook(() => useContext(ProductsContext), {
+    wrapper
+  });
+};
+
 describe("<ProductsContext />", () => {
   beforeEach(() => {
     jest.useFakeTimers();
@@ -39,12 +49,7 @@ describe("<ProductsContext />", () => {
       .spyOn(productsApi, "useProductLoader")
       .mockImplementation(() => products);
 
-    const wrapper = ({ children }) => (
-      <ProductsContextProvider>{children}</ProductsContextProvider>
-    );
-    const { result } = renderHook(() => useContext(ProductsContext), {
-      wrapper
-    });
+    const { result } = renderWrappedHook();
 
     expect(result.current.products).toEqual(products);
   });
@@ -52,14 +57,7 @@ describe("<ProductsContext />", () => {
   it("should call `refresh` with delay", async () => {
     jest.spyOn(productsApi, "useProductLoader").mockImplementation(() => []);
 
-    const wrapper = ({ children }) => (
-      <ProductsContextProvider reFetchDelay={200}>
-        {children}
-      </ProductsContextProvider>
-    );
-    const { result } = renderHook(() => useContext(ProductsContext), {
-      wrapper
-    });
+    const { result } = renderWrappedHook();
 
     act(() => {
       result.current.refresh(filtersMap);
@@ -77,22 +75,13 @@ describe("<ProductsContext />", () => {
   it("should call `refresh` without delay and cancel debounced calls, if `force` parameter is provided", () => {
     jest.spyOn(productsApi, "useProductLoader").mockImplementation(() => []);
 
-    const wrapper = ({ children }) => (
-      <ProductsContextProvider reFetchDelay={200}>
-        {children}
-      </ProductsContextProvider>
-    );
-    const { result } = renderHook(() => useContext(ProductsContext), {
-      wrapper
-    });
+    const { result } = renderWrappedHook();
 
     act(() => {
       result.current.refresh(filtersMap);
-    });
 
-    jest.runTimersToTime(100);
+      jest.runTimersToTime(100);
 
-    act(() => {
       result.current.refresh({}, true);
     });
 
