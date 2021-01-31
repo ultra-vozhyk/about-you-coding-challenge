@@ -1,35 +1,11 @@
-import {
-  AttributesFilterItemWithValues,
-  FilterItemWithValues,
-  FilterTypes
-} from "@aboutyou/backbone/endpoints/filters/filters";
-import { fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { FiltersContext, IFiltersCtx } from "../../context/FiltersContext";
+import { mockedColorFilter } from "../../utils/testHelpers";
+import { FilterItemWithValues } from "@aboutyou/backbone/endpoints/filters/filters";
+import { fireEvent, render } from "@testing-library/react";
 import { FiltersPanel } from "../FiltersPanel";
 
-const colorFilter = {
-  id: 1,
-  name: "Color",
-  slug: "color",
-  values: [
-    {
-      id: 1,
-      name: "Black",
-      value: "black",
-      productCount: 0
-    } as any,
-    {
-      id: 2,
-      name: "White",
-      value: "white",
-      productCount: 0
-    } as any
-  ],
-  type: FilterTypes.ATTRIBUTES
-} as AttributesFilterItemWithValues;
-
-const filters: FilterItemWithValues[] = [colorFilter];
+const filters: FilterItemWithValues[] = [mockedColorFilter];
 
 const defaultCtxValue: IFiltersCtx = {
   filters,
@@ -43,7 +19,7 @@ const defaultCtxValue: IFiltersCtx = {
 };
 
 const footerTestIdPrefix = "filters-panel-footer";
-const filterTestIdPrefix = `filter-${colorFilter.slug}`;
+const filterTestIdPrefix = `filter-${mockedColorFilter.slug}`;
 
 describe("<FiltersPanel />", () => {
   it("should render correctly", () => {
@@ -72,8 +48,8 @@ describe("<FiltersPanel />", () => {
     fireEvent.click(getByText(/white/i));
 
     expect(handleUpdate).toBeCalledWith(
-      colorFilter.id,
-      colorFilter.values[1].id.toString()
+      mockedColorFilter.id,
+      mockedColorFilter.values[1].id.toString()
     );
   });
 
@@ -89,7 +65,7 @@ describe("<FiltersPanel />", () => {
 
     fireEvent.click(getByTestId(`${filterTestIdPrefix}__reset`));
 
-    expect(handleReset).toBeCalledWith(colorFilter.id);
+    expect(handleReset).toBeCalledWith(mockedColorFilter.id);
   });
 
   it("should call `resetAll` callback, after click on `Reset` button", () => {
