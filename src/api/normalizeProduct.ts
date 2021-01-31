@@ -2,7 +2,7 @@ import {
   ProductImage,
   BapiProduct
 } from "@aboutyou/backbone/types/BapiProduct";
-import { Product } from "../types/Product";
+import { Product } from "../types/types";
 
 const getImageUrl = (hash: string) =>
   `//cdn.aboutstatic.com/file/${hash}?quality=70&progressive=true&width=800&height=800&brightness=0.95`;

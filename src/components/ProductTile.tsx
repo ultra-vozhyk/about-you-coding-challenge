@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { Product } from "../types/Product";
+import { Product } from "../types/types";
 
 const ProductTile: FC<Product> = ({ name, price, image }) => {
   return (

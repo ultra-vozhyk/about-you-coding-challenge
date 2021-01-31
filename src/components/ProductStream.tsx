@@ -1,13 +1,11 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { Product } from "../types/Product";
+import { useProductCtx } from "../context/ProductsContext";
 import ProductTile from "./ProductTile";
 
-interface Props {
-  products: Product[];
-}
+const ProductStream: FC = () => {
+  const { products } = useProductCtx();
 
-const ProductStream: FC<Props> = ({ products }) => {
   return (
     <Wrapper>
       {products.map(product => (

@@ -1,0 +1,51 @@
+import { AttributeWithValuesFilter } from "@aboutyou/backbone/types/AttributeOrAttributeValueFilter";
+import React, { useCallback, useContext, useMemo, useState } from "react";
+import { useProductLoader } from "../api/useProductLoader";
+import { FiltersMap, Product } from "../types/types";
+import { debounce, transformToAttributesWithValues } from "../utils/utils";
+
+type RefreshFn = (filters: FiltersMap, force?: boolean) => void;
+
+interface ProductsCtx {
+  products: Product[];
+  refresh: RefreshFn;
+}
+
+const ProductsContext = React.createContext<ProductsCtx>({
+  products: [],
+  refresh: () => {}
+});
+
+export const useProductCtx = () => useContext(ProductsContext);
+
+export const ProductsContextProvider: React.FC = ({ children }) => {
+  const [attributeFilters, setAttributeFilters] = useState<
+    AttributeWithValuesFilter[]
+  >();
+  const products = useProductLoader(attributeFilters);
+
+  const apply = useCallback((filters: FiltersMap) => {
+    setAttributeFilters(transformToAttributesWithValues(filters));
+  }, []);
+
+  const debouncedApply = useMemo(() => debounce(apply, 2000), [apply]);
+
+  const refresh = useCallback(
+    (filters: FiltersMap, force: boolean = false) => {
+      const fn = force ? apply : debouncedApply;
+
+      if (force) {
+        debouncedApply.cancel();
+      }
+
+      fn(filters);
+    },
+    [apply, debouncedApply]
+  );
+
+  return (
+    <ProductsContext.Provider value={{ products, refresh }}>
+      {children}
+    </ProductsContext.Provider>
+  );
+};
