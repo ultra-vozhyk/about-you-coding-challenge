@@ -24,7 +24,6 @@ export const FiltersPanel: React.FC = () => {
   } = useFiltersCtx();
 
   const handleClose = () => {
-    console.log("hjere");
     setFilterPanelVisiblity(false);
   };
 
@@ -47,7 +46,7 @@ export const FiltersPanel: React.FC = () => {
 
     return null;
   };
-  console.log(isFilterPanelVisible);
+
   return (
     <SidePanel
       isVisible={isFilterPanelVisible}
