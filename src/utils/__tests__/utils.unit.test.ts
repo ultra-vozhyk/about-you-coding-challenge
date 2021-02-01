@@ -1,42 +1,4 @@
-import { debounce, transformToAttributesWithValues } from "../utils";
-
-describe("`debounce` fn tests", () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-  });
-
-  it("should invoke function with delay", () => {
-    const fn = jest.fn();
-    const debouncedFn = debounce(fn, 200);
-
-    debouncedFn();
-
-    expect(fn).not.toBeCalled();
-
-    jest.runTimersToTime(100);
-
-    expect(fn).not.toBeCalled();
-
-    jest.runTimersToTime(100);
-
-    expect(fn).toBeCalledTimes(1);
-  });
-
-  it("should cancel function invocation", () => {
-    const fn = jest.fn();
-    const debouncedFn = debounce(fn, 200);
-
-    debouncedFn();
-
-    jest.runTimersToTime(100);
-
-    debouncedFn.cancel();
-
-    jest.runOnlyPendingTimers();
-
-    expect(fn).toBeCalledTimes(0);
-  });
-});
+import { transformToAttributesWithValues } from "../utils";
 
 describe("`transformToAttributesWithValues` fn tests", () => {
   it("should return correct result", () => {
