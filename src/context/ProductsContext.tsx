@@ -3,12 +3,12 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
+  useRef,
   useState
 } from "react";
 import { useProductLoader } from "../api/useProductLoader";
 import { FiltersMap, Product } from "../types/types";
-import { debounce, transformToAttributesWithValues } from "../utils/utils";
+import { transformToAttributesWithValues } from "../utils/utils";
 
 type RefreshFn = (filters: FiltersMap, force?: boolean) => void;
 
@@ -31,38 +31,51 @@ export const useProductCtx = () => useContext(ProductsContext);
 export const ProductsContextProvider: React.FC<
   ProductsContextProviderProps
 > = ({ children, reFetchDelay = 200 }) => {
-  const [attributeFilters, setAttributeFilters] = useState<
+  const [lastAppliedFilters, setLastAppliedFilters] = useState<
     AttributeWithValuesFilter[]
   >([]);
-  const products = useProductLoader(attributeFilters);
+  const [scheduledUpdate, setScheduledUpdate] = useState<{
+    filters: AttributeWithValuesFilter[];
+    force: boolean;
+  }>(null);
+  const delay = useRef<number>();
+  const products = useProductLoader(lastAppliedFilters);
 
-  const apply = useCallback((filters: FiltersMap) => {
-    setAttributeFilters(transformToAttributesWithValues(filters));
+  const forceRefetch = useCallback((filters: AttributeWithValuesFilter[]) => {
+    setLastAppliedFilters(filters);
+    setScheduledUpdate(null);
   }, []);
 
-  const debouncedApply = useMemo(() => debounce(apply, reFetchDelay), [
-    apply,
-    reFetchDelay
-  ]);
-
-  const refresh = useCallback(
-    (filters: FiltersMap, force: boolean = false) => {
-      const fn = force ? apply : debouncedApply;
-
-      if (force) {
-        debouncedApply.cancel();
-      }
-
-      fn(filters);
-    },
-    [apply, debouncedApply]
-  );
+  const refresh = useCallback((filters: FiltersMap, force: boolean = false) => {
+    setScheduledUpdate({
+      filters: transformToAttributesWithValues(filters),
+      force
+    });
+  }, []);
 
   useEffect(() => {
+    let mounted = true;
+
+    if (scheduledUpdate && scheduledUpdate.filters !== lastAppliedFilters) {
+      if (delay.current) {
+        clearTimeout(delay.current);
+      }
+
+      if (scheduledUpdate.force) {
+        forceRefetch(scheduledUpdate.filters);
+      } else {
+        delay.current = setTimeout(() => {
+          if (mounted) {
+            forceRefetch(scheduledUpdate.filters);
+          }
+        }, reFetchDelay);
+      }
+    }
+
     return () => {
-      debouncedApply.cancel();
+      mounted = false;
     };
-  }, [debouncedApply]);
+  }, [scheduledUpdate, lastAppliedFilters, reFetchDelay]);
 
   return (
     <ProductsContext.Provider value={{ products, refresh }}>

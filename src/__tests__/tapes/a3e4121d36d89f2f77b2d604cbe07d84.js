@@ -19,16 +19,16 @@ module.exports = function (req, res) {
   res.setHeader("content-type", "application/json; charset=UTF-8");
   res.setHeader("transfer-encoding", "chunked");
   res.setHeader("connection", "close");
-  res.setHeader("date", "Mon, 01 Feb 2021 08:50:48 GMT");
+  res.setHeader("date", "Mon, 01 Feb 2021 10:28:19 GMT");
   res.setHeader("server", "nginx");
   res.setHeader("access-control-allow-origin", "https://www.aboutyou.de");
   res.setHeader("access-control-allow-credentials", "true");
   res.setHeader("cache-control", "no-transform");
   res.setHeader("content-encoding", "gzip");
-  res.setHeader("x-cache", "Hit from cloudfront");
-  res.setHeader("via", "1.1 8cdf0467c0468ddfe8e9873c6bb8304c.cloudfront.net (CloudFront)");
+  res.setHeader("x-cache", "Miss from cloudfront");
+  res.setHeader("via", "1.1 2f0580a0593ad9d3fb82aee9226d8179.cloudfront.net (CloudFront)");
   res.setHeader("x-amz-cf-pop", "FRA6-C1");
-  res.setHeader("x-amz-cf-id", "4KWAmfl-Mo2wQq7UqTNqwM81D-GYge0L8xs0_mkDvBl-DLE70gchSQ==");
+  res.setHeader("x-amz-cf-id", "6CKYkkoW8dYuyq8prw-zKU6YivfRwfJLY7dprkdKRhFoleIiXMQD7w==");
 
   res.setHeader("x-yakbak-tape", path.basename(__filename, ".js"));
 
