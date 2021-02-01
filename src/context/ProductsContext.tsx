@@ -1,5 +1,11 @@
 import { AttributeWithValuesFilter } from "@aboutyou/backbone/types/AttributeOrAttributeValueFilter";
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 import { useProductLoader } from "../api/useProductLoader";
 import { FiltersMap, Product } from "../types/types";
 import { debounce, transformToAttributesWithValues } from "../utils/utils";
@@ -51,6 +57,13 @@ export const ProductsContextProvider: React.FC<
     },
     [apply, debouncedApply]
   );
+
+  useEffect(() => {
+    return () => {
+      console.log("here");
+      debouncedApply.cancel();
+    };
+  }, [debouncedApply]);
 
   return (
     <ProductsContext.Provider value={{ products, refresh }}>
