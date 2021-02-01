@@ -60,7 +60,6 @@ export const ProductsContextProvider: React.FC<
 
   useEffect(() => {
     return () => {
-      console.log("here");
       debouncedApply.cancel();
     };
   }, [debouncedApply]);
