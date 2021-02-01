@@ -71,13 +71,13 @@ export const FiltersContextProvider: React.FC = ({ children }) => {
     setFilterPanelVisiblity(false);
 
     refresh({}, true);
-  }, []);
+  }, [refresh]);
 
   const applyFilters = useCallback(() => {
     setFilterPanelVisiblity(false);
 
     refresh(appliedFilters, true);
-  }, [appliedFilters]);
+  }, [appliedFilters, refresh]);
 
   const ctxValue = {
     filters,

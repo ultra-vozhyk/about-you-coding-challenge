@@ -14,6 +14,7 @@ export const FiltersButton: React.FC<IFilterButtonProps> = ({ text }) => {
   return (
     <Wrapper>
       <Button
+        data-testid="open-filters-btn"
         buttonType="secondary"
         size="small"
         elliptic={true}
